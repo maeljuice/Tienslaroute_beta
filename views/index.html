@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accueil</title>
+</head>
+<body>
+
+<h2>Bienvenue sur Tienslaroute</h2>
+
+<a href="/map">Aller à la carte</a><br>
+
+<h3>Connexion</h3>
+<form id="loginForm">
+  <input type="text" id="loginUsername" placeholder="Nom d'utilisateur" required><br>
+  <input type="password" id="loginPassword" placeholder="Mot de passe" required><br>
+  <button type="submit">Se connecter</button>
+</form>
+
+<h3>Inscription</h3>
+<form id="registerForm">
+  <input type="text" id="registerUsername" placeholder="Nom d'utilisateur" required><br>
+  <input type="password" id="registerPassword" placeholder="Mot de passe" required><br>
+  <button type="submit">S'inscrire</button>
+</form>
+
+<script>
+  // Formulaire de connexion
+  document.getElementById('loginForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const username = document.getElementById('loginUsername').value;
+    const password = document.getElementById('loginPassword').value;
+
+    const response = await fetch('/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      alert('Connexion réussie! Token: ' + data.token);
+    } else {
+      alert('Erreur de connexion');
+    }
+  });
+
+  // Formulaire d'inscription
+  document.getElementById('registerForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const username = document.getElementById('registerUsername').value;
+    const password = document.getElementById('registerPassword').value;
+
+    const response = await fetch('/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+
+    if (response.ok) {
+      alert('Inscription réussie!');
+    } else {
+      alert('Erreur d\'inscription');
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,204 @@
+[
+  
+  {
+    "latitude": 48.21408755081824,
+    "longitude": 4.240971257051114,
+    "nom": "Aire de Troyes-Saint-Thibault Nord"
+  },
+  {
+    "latitude": 46.959758835607026,
+    "longitude": 4.837871809739908,
+    "nom": "Autogrill - Aire de Beaune Merceuil A6"
+  },
+ 
+  {
+    "latitude": 48.63772036763573,
+    "longitude": 2.1496895682159063,
+    "nom": "Aire de Limours-Janvry"
+  },
+  {
+    "latitude": 48.634539675606725,
+    "longitude": 2.147618474918795,
+    "nom": "Aire de Limours Briis-sous-Forges"
+  },
+  {
+    "latitude": 47.47522954770522,
+    "longitude": 0.7749384216588527,
+    "nom": "Aire de Tours Longue Vue"
+  },
+  {
+    "latitude": 47.47361875817686,
+    "longitude": 0.7765238239650775,
+    "nom": "Aire de Tours Val de Loire"
+  },
+  {
+    "latitude": 47.09583805737767,
+    "longitude": 2.2392031842135953,
+    "nom": "Aire de Bourges-Sainte Thorette"
+  },
+  {
+    "latitude": 46.05788129588881,
+    "longitude": 3.1121298577380663,
+    "nom": "AUTOGRILL Aire des Volcans d'Auvergne - A71"
+  },
+  {
+    "latitude": 46.05769491454128,
+    "longitude": 3.115264636275759,
+    "nom": "Aire des Volcans d'Auvergne -A71- APRR"
+  },
+  {
+    "latitude": 44.8705558567975,
+    "longitude": 3.2479936319975007,
+    "nom": "A75 - Aire de la Lozère"
+  },
+  {
+    "latitude": 48.46847202348616,
+    "longitude": 1.5793822568241132,
+    "nom": "AUTOGRILL Aire de Chartres-Gasville - A11"
+  },
+  {
+    "latitude": 48.46731961331208,
+    "longitude": 1.5798543256236894,
+    "nom": "AUTOGRILL Aire de Chartres-Bois-Paris - A11"
+  },
+  {
+    "latitude": 48.23951264031378,
+    "longitude": 1.082611257672708,
+    "nom": "Aire de Brou-Dampierre - A11"
+  },
+  {
+    "latitude": 48.12646696736268,
+    "longitude": 0.622053452840009,
+    "nom": "Aire de La Ferté-Bernard"
+  },
+  {
+    "latitude": 48.125025254236036,
+    "longitude": 0.6209570999999998,
+    "nom": "Aire de Villaines-la-Gonais - A11"
+  },
+  {
+    "latitude": 48.05585845328364,
+    "longitude": 0.2556289816721627,
+    "nom": "Aire de La Sarthe Sargé-le-Mans Nord"
+  },
+  {
+    "latitude": 48.0558871381395,
+    "longitude": 0.2512516164397284,
+    "nom": "Aire de La Sarthe Sargé-le-Mans Sud"
+  },
+  {
+    "latitude": 48.8291951830905,
+    "longitude": 2.7436012711636457,
+    "nom": "Aire de Ferrières"
+},
+{
+    "latitude": 48.83002142649118,
+    "longitude": 2.7455036655942435,
+    "nom": "Aire de Bussy-Saint-Georges"
+},
+{
+    "latitude": 49.11823655253089,
+    "longitude": 4.247045147932017,
+    "nom": "AUTOGRILL Aire de Reims Champagne Nord -A4"
+},
+{
+    "latitude": 49.12051791308237,
+    "longitude": 4.244901354112358,
+    "nom": "Aire Reims Champagne nord"
+},
+{
+    "latitude": 49.120075702630444,
+    "longitude": 4.24324096620762,
+    "nom": "Aire de Reims Champagne Sud"
+},
+{
+    "latitude": 49.118670890878995,
+    "longitude": 5.509481281172537,
+    "nom": "Aire de Verdun Saint Nicolas Sud"
+},
+{
+    "latitude": 49.119457344582074,
+    "longitude": 5.508805364482235,
+    "nom": "Aire de Verdun Saint Nicolas Nord"
+},
+{
+    "latitude": 49.88813652541418,
+    "longitude": 2.835037897647114,
+    "nom": "Aire de Cœur des Hauts-de-France Ouest"
+},
+{
+    "latitude": 49.85970339880486,
+    "longitude": 2.538813665684393,
+    "nom": "Aire de Villers-Bretonneux"
+},
+{
+    "latitude": 48.9461854659727,
+    "longitude": 1.951252152293544,
+    "nom": "Aire de Morainvilliers Sud"
+},
+{
+    "latitude": 48.993688548970894,
+    "longitude": 1.6330130027515741,
+    "nom": "Aire de Rosny-sur-Seine Nord"
+},
+{
+    "latitude": 48.992181902427994,
+    "longitude": 1.6325674743056051,
+    "nom": "Aire de Rosny-sur-Seine Sud"
+},
+{
+    "latitude": 49.21165282830716,
+    "longitude": 1.2201097139702324,
+    "nom": "Aire de Vironvay Nord"
+},
+{
+    "latitude": 49.21191127278286,
+    "longitude": 1.2177359956404015,
+    "nom": "Aire de Vironvay Sud"
+},
+{
+    "latitude": 49.36143761376374,
+    "longitude": 0.864291139019532,
+    "nom": "Aire de Bosgouet Nord"
+},
+{
+    "latitude": 49.36142151736702,
+    "longitude": 0.8592987426803158,
+    "nom": "Aire de Bosgouet Sud"
+},
+{
+    "latitude": 49.32484416412314,
+    "longitude": 0.32690704684456495,
+    "nom": "Aire de Beuzeville Nord"
+},
+{
+    "latitude": 49.32096951565816,
+    "longitude": 0.3216915195887003,
+    "nom": "Aire de Beuzeville Sud"
+},
+{
+    "latitude": 47.08976762184703,
+    "longitude": 1.8447295428227706,
+    "nom": "Aire des Champs d'Amour"
+},
+{
+    "latitude": 46.297202567828606,
+    "longitude": -0.37274426073581,
+    "nom": "Aire de Poitou Charentes-Sud"
+},
+{
+    "latitude": 46.297229093914204,
+    "longitude": -0.3769856466739179,
+    "nom": "Aire de Poitou-Charentes Nord"
+},
+{
+    "latitude": 45.89522879231078,
+    "longitude": -0.6013623231665277,
+    "nom": "Aire de Fenioux Ouest"
+},
+{
+    "latitude": 45.89233678560268,
+    "longitude": -0.6029461165498009,
+    "nom": "Aire de Fenioux Est"
+}
+]

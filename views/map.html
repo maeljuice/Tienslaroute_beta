@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carte avec Suivi et Fonctionnalités des Marqueurs</title>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPOpbWlPv2YSvr07Reph_wj1z8OgKkIBE&libraries=geometry,places"></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: row;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    #map-container {
+      flex: 2;
+    }
+
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+
+    #controls {
+      margin: 10px;
+      padding: 10px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    #sidebar {
+      flex: 1;
+      max-width: 300px;
+      padding: 10px;
+      background-color: #f8f9fa;
+      border-left: 1px solid #ddd;
+      overflow-y: auto;
+    }
+
+    #sidebar h3 {
+      margin-top: 0;
+    }
+
+    #marker-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    #marker-list li {
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+    }
+
+    #marker-list li:hover {
+      background-color: #e9ecef;
+    }
+  </style>
+</head>
+<body>
+  <div id="map-container">
+    <div id="controls">
+      <label for="start">Point de départ :</label>
+      <input id="start" type="text" placeholder="Rechercher une adresse" />
+      <label for="end">Point d'arrivée :</label>
+      <input id="end" type="text" placeholder="Rechercher une adresse" />
+      <button id="calculate-route">Calculer l'itinéraire</button>
+      <button id="start-tracking">Activer le suivi en temps réel</button>
+      <button id="stop-tracking" disabled>Arrêter le suivi</button>
+    </div>
+    <div id="map"></div>
+  </div>
+  <div id="sidebar">
+    <h3>Marqueurs proches</h3>
+    <ul id="marker-list">
+      <li>Aucun marqueur trouvé.</li>
+    </ul>
+  </div>
+  <script>
+    let map, directionsService, directionsRenderer, userMarker, watchId;
+    const nearbyMarkersOnMap = [];
+    const markerIcon = {
+      path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+      scale: 5,
+      fillColor: 'blue',
+      fillOpacity: 0.8,
+      strokeWeight: 2,
+      rotation: 0, // Orientation de la flèche
+    };
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 48.8566, lng: 2.3522 },
+        zoom: 12,
+      });
+
+      directionsService = new google.maps.DirectionsService();
+      directionsRenderer = new google.maps.DirectionsRenderer();
+      directionsRenderer.setMap(map);
+
+      loadMarkers();
+    }
+
+    function loadMarkers() {
+      fetch('/get-markers')
+        .then(response => response.json())
+        .then(markers => {
+          markers.forEach(({ latitude, longitude }) => {
+            new google.maps.Marker({
+              position: { lat: latitude, lng: longitude },
+              map: map,
+            });
+          });
+        })
+        .catch(error => console.error('Erreur lors du chargement des marqueurs :', error));
+    }
+
+    function calculateRoute() {
+      const start = document.getElementById('start').value;
+      const end = document.getElementById('end').value;
+
+      if (!start || !end) {
+        alert('Veuillez renseigner les deux points.');
+        return;
+      }
+
+      directionsService.route(
+        {
+          origin: start,
+          destination: end,
+          travelMode: google.maps.TravelMode.DRIVING,
+        },
+        (response, status) => {
+          if (status === 'OK') {
+            directionsRenderer.setDirections(response);
+            const routePath = response.routes[0].overview_path;
+            findNearbyMarkers(routePath);
+          } else {
+            alert("Erreur lors du calcul de l'itinéraire : " + status);
+          }
+        }
+      );
+    }
+
+    function findNearbyMarkers(routePath) {
+      // Réinitialiser les marqueurs sur la carte et la liste
+      nearbyMarkersOnMap.forEach(marker => marker.setMap(null));
+      nearbyMarkersOnMap.length = 0;
+
+      const markerList = document.getElementById('marker-list');
+      markerList.innerHTML = '';
+
+      fetch('/get-markers')
+        .then(response => response.json())
+        .then(markers => {
+          const nearbyMarkers = markers.filter(marker => {
+            const markerPosition = new google.maps.LatLng(marker.latitude, marker.longitude);
+            return routePath.some(point => {
+              const distance = google.maps.geometry.spherical.computeDistanceBetween(point, markerPosition);
+              return distance <= 4000; // Distance maximale de 1 km
+            });
+          });
+
+          if (nearbyMarkers.length === 0) {
+            markerList.innerHTML = '<li>Aucun marqueur trouvé.</li>';
+          } else {
+            nearbyMarkers.forEach(({ latitude, longitude, nom }) => {
+              const listItem = document.createElement('li');
+              listItem.innerHTML = `<strong>${nom}</strong><br>Latitude: ${latitude.toFixed(6)}, Longitude: ${longitude.toFixed(6)}`;
+              listItem.addEventListener('click', () => {
+                moveToLocation(latitude, longitude);
+              });
+              markerList.appendChild(listItem);
+
+              const marker = new google.maps.Marker({
+                position: { lat: latitude, lng: longitude },
+                map: map,
+                icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+              });
+
+              nearbyMarkersOnMap.push(marker); // Ajouter aux marqueurs sur la carte
+            });
+          }
+        })
+        .catch(error => console.error('Erreur lors de la recherche des marqueurs proches :', error));
+    }
+
+    function moveToLocation(lat, lng) {
+      const center = new google.maps.LatLng(lat, lng);
+      map.panTo(center);
+      map.setZoom(15);
+    }
+
+    function startTracking() {
+      if (navigator.geolocation) {
+        watchId = navigator.geolocation.watchPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+
+            if (!userMarker) {
+              userMarker = new google.maps.Marker({
+                position: { lat: latitude, lng: longitude },
+                map: map,
+                icon: markerIcon,
+              });
+              map.panTo({ lat: latitude, lng: longitude });
+              map.setZoom(15);
+            } else {
+              userMarker.setPosition({ lat: latitude, lng: longitude });
+            }
+          },
+          (error) => {
+            alert('Impossible de récupérer votre position : ' + error.message);
+          },
+          { enableHighAccuracy: true, maximumAge: 0 }
+        );
+
+        window.addEventListener('deviceorientation', updateOrientation);
+        document.getElementById('stop-tracking').disabled = false;
+        document.getElementById('start-tracking').disabled = true;
+      } else {
+        alert('La géolocalisation n\'est pas prise en charge par ce navigateur.');
+      }
+    }
+
+    function stopTracking() {
+      if (watchId) {
+        navigator.geolocation.clearWatch(watchId);
+        watchId = null;
+      }
+      window.removeEventListener('deviceorientation', updateOrientation);
+      document.getElementById('stop-tracking').disabled = true;
+      document.getElementById('start-tracking').disabled = false;
+    }
+
+    function updateOrientation(event) {
+      if (userMarker) {
+        const heading = event.alpha; // Orientation en degrés
+        markerIcon.rotation = heading; // Met à jour l'orientation du marqueur
+        userMarker.setIcon(markerIcon); // Applique l'orientation au marqueur
+      }
+    }
+
+    window.onload = initMap;
+
+    document.getElementById('calculate-route').addEventListener('click', calculateRoute);
+    document.getElementById('start-tracking').addEventListener('click', startTracking);
+    document.getElementById('stop-tracking').addEventListener('click', stopTracking);
+  </script>
+</body>
+</html>
